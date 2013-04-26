@@ -1810,6 +1810,10 @@ class npc_gunship_cannon : public CreatureScript
                 else
                 {
                     me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
+                    //Cannon movement fix - Working (tested)
+                    me->Unit::AddExtraUnitMovementFlag(MOVEMENTFLAG2_FULL_SPEED_TURNING);
+    				me->Unit::AddExtraUnitMovementFlag(MOVEMENTFLAG2_ALWAYS_ALLOW_PITCHING);
+					me->Unit::AddExtraUnitMovementFlag(MOVEMENTFLAG2_FULL_SPEED_PITCHING);
                 }
             }
 
