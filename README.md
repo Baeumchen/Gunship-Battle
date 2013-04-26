@@ -7,5 +7,5 @@ TODO:
   - Avoid Crash from Axethrower
 
 Finished:
-	- Fixed Server Crash
-	- Fixed Cannon Aim Angle
+  - Fixed Server Crash
+  - Fixed Cannon Aim Angle
