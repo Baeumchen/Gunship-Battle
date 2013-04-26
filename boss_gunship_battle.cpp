@@ -2156,7 +2156,7 @@ class npc_saurfang_gunship : public CreatureScript
                 if (_instance->GetData(DATA_TEAM_IN_INSTANCE) == HORDE && me->GetHealthPct() < 2.0f )
                 {
                     damage = 0;
-                    //me->AI()->DoAction(ACTION_FAIL);
+                    me->AI()->DoAction(ACTION_FAIL);
                 }
             }
 
