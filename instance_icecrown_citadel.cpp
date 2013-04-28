@@ -1,21 +1,21 @@
 /*
- * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 Trinity <http://www.trinitycore.org/>
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation; either version 2 of the License, or (at your
- * option) any later version.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
- * Script Created by: Unknown (http://www.trinitycore.org/f/topic/8346-gunship-battle-custom-issue/#entry54614)
- * Script updated by: Baeumchen
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Updated by: Toba and Baeumchen (maddin)
  */
 
 #include "ObjectMgr.h"
@@ -29,9 +29,8 @@
 #include "Player.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
-#include "Transport.h"
 #include "MapManager.h"
-
+#include "Transport.h"
 
 enum EventIds
 {
@@ -45,7 +44,6 @@ enum TimedEvents
     EVENT_UPDATE_EXECUTION_TIME = 1,
     EVENT_QUAKE_SHATTER         = 2,
     EVENT_REBUILD_PLATFORM      = 3,
-  EVENT_CHECK_HERO_ACHIEVEMENT= 4,
 };
 
 DoorData const doorData[] =
@@ -158,7 +156,7 @@ class instance_icecrown_citadel : public InstanceMapScript
                 BloodQuickeningState = NOT_STARTED;
                 BloodQuickeningMinutes = 0;
 				// Gunship event
-				FirstSquadState = 0;
+                FirstSquadState = 0;
                 SecondSquadState = 0;
                 SpireSquadState = 0;
                 SkybreakerBossGUID = 0;
@@ -169,7 +167,7 @@ class instance_icecrown_citadel : public InstanceMapScript
                 MuradinBronzebeardNotVisualGUID = 0;
                 GbBattleMageGUID = 0;
                 isPrepared = false;
-                SindragosasWardGUID = 0;
+                SindragosasWardGUID = 0;	
             }
 
             void FillInitialWorldStates(WorldPacket& data)
@@ -186,8 +184,6 @@ class instance_icecrown_citadel : public InstanceMapScript
                 if (!TeamInInstance)
                     TeamInInstance = player->GetTeam();
 					PrepareGunshipEvent(player); // Spawn Gunship Event
-					if (instance->IsHeroic())
-						Events.ScheduleEvent(EVENT_CHECK_HERO_ACHIEVEMENT, 10000);
             }
 
             void OnCreatureCreate(Creature* creature)
@@ -328,10 +324,9 @@ class instance_icecrown_citadel : public InstanceMapScript
                         creature->SetCorpseDelay(0);
                         creature->SetReactState(REACT_PASSIVE);
                         break;
-					case NPC_SINDRAGOSAS_WARD:
-						SindragosasWardGUID = creature->GetGUID();
-						break;
-					//Gunship
+                    case NPC_SINDRAGOSAS_WARD:
+                        SindragosasWardGUID = creature->GetGUID();
+						break;	
 					case NPC_GB_SKYBREAKER:
                         SkybreakerBossGUID = creature->GetGUID();
                         break;
@@ -603,6 +598,29 @@ class instance_icecrown_citadel : public InstanceMapScript
                         if (GetBossState(DATA_THE_LICH_KING) == DONE)
                             go->SetRespawnTime(7 * DAY);
                         break;
+                    //Gunship: Assignments
+                    case NPC_GB_SKYBREAKER:
+                        SkybreakerBossGUID = go->GetGUID();
+                        break;
+                    case NPC_GB_ORGRIMS_HAMMER:
+                        OrgrimmarBossGUID = go->GetGUID();
+                        break;
+                    case NPC_GB_HIGH_OVERLORD_SAURFANG:
+                        DeathbringerSaurfangGbGUID = go->GetGUID();
+                        break;
+                    case NPC_GB_MURADIN_BRONZEBEARD:
+                        MuradinBronzebeardGbGUID = go->GetGUID();
+                        break;
+                    case NPC_GB_HIGH_OVERLORD_SAURFANG_NOT_VISUAL:
+                        DeathbringerSaurfangNotVisualGUID = go->GetGUID();
+                        break;
+                    case NPC_GB_MURADIN_BRONZEBEARD_NOT_VISUAL:
+                        MuradinBronzebeardNotVisualGUID = go->GetGUID();
+                        break;
+                    case NPC_GB_SKYBREAKER_SORCERERS:
+                    case NPC_GB_KORKRON_BATTLE_MAGE:
+                        GbBattleMageGUID = go->GetGUID();
+                        break;						
                     default:
                         break;
                 }
@@ -1230,22 +1248,6 @@ class instance_icecrown_citadel : public InstanceMapScript
 
             void Update(uint32 diff)
             {
-
-				if (GetBossState(DATA_DEATHBRINGER_SAURFANG) == DONE)
-                {
-                    if (GameObject* go = instance->GetGameObject(DeathbringersCacheGUID))
-                    {
-                        if (go->isSpawned())
-                        {
-                            Map::PlayerList const &players = instance->GetPlayers();
-                            for (Map::PlayerList::const_iterator it = players.begin(); it != players.end(); ++it)
-                            if (Player* player = it->getSource())
-                                if(!player->GetGroup() && !player->IsBeingTeleportedFar() && player->isGameMaster())
-                                    player->TeleportTo(571, 6447.39f, 2060.72f, 564.027f, 2.37f);
-                        }
-                    }
-                }
-
                 if (BloodQuickeningState != IN_PROGRESS && GetBossState(DATA_THE_LICH_KING) != IN_PROGRESS)
                     return;
 
@@ -1340,8 +1342,7 @@ class instance_icecrown_citadel : public InstanceMapScript
                         break;
                 }
             }
-
-			// Gunship: this sucks, do it differently
+            // Gunship: this sucks, do it differently
             void PrepareGunshipEvent(Player* player)
             {
                 Transport* th;
@@ -1510,8 +1511,8 @@ class instance_icecrown_citadel : public InstanceMapScript
                         th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, -13.19547f, -27.160213f, 35.47252f, 3.10672f);
                         th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, -18.33902f, -25.230491f, 33.04052f, 3.00672f);
                         th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, -60.1251f, -1.27014f, 42.8335f, 5.16073f);
-                       th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, -48.2651f, 16.78034f, 34.2515f, 0.04292f);
-                       th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, -14.8356f, 27.931688f, 33.363f, 1.73231f);
+                        th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, -48.2651f, 16.78034f, 34.2515f, 0.04292f);
+                        th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, -14.8356f, 27.931688f, 33.363f, 1.73231f);
                         th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, 10.2702f, 20.62966f, 35.37483f, 1.6f);
                         th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, 39.32459f, 14.50176f, 36.88428f, 1.6f);
                         th->AddNPCPassengerInInstance(NPC_GB_GUNSHIP_HULL, 46.17223f, -6.638763f, 37.35444f, 1.32f);
@@ -1541,7 +1542,7 @@ class instance_icecrown_citadel : public InstanceMapScript
                     sMapMgr->LoadTransportForPlayers(player);
                 }
             }
-
+ 
         protected:
             EventMap Events;
             uint64 LadyDeathwisperElevatorGUID;
