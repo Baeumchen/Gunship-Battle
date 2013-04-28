@@ -1,21 +1,21 @@
 /*
- * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 Trinity <http://www.trinitycore.org/>
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation; either version 2 of the License, or (at your
- * option) any later version.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Script Created by: Unknown (http://www.trinitycore.org/f/topic/8346-gunship-battle-custom-issue/#entry54614)
- * 
+ * Updated by: Toba and Baeumchen (maddin)
  */
 
 #ifndef ICECROWN_CITADEL_H_
@@ -90,9 +90,9 @@ enum DataTypes
     DATA_VALITHRIA_DREAMWALKER      = 10,
     DATA_SINDRAGOSA                 = 11,
     DATA_THE_LICH_KING              = 12,
-  DATA_SINDRAGOSA_GAUNTLET        = 13,
-
-    // Additional data
+    DATA_SINDRAGOSA_GAUNTLET        = 13,
+ 
+	// Additional data
     DATA_SAURFANG_EVENT_NPC         = 14,
     DATA_BONED_ACHIEVEMENT          = 15,
     DATA_OOZE_DANCE_ACHIEVEMENT     = 16,
@@ -120,7 +120,7 @@ enum DataTypes
     DATA_HIGHLORD_TIRION_FORDRING   = 38,
     DATA_ARTHAS_PLATFORM            = 39,
     DATA_TERENAS_MENETHIL           = 40,
-
+    
      // Gunship: Data for achievements
     DATA_BEEN_WAITING_ACHIEVEMENT   = 49,
     DATA_NECK_DEEP_ACHIEVEMENT      = 50,
@@ -304,9 +304,9 @@ enum CreaturesIds
     NPC_WORLD_TRIGGER                           = 22515,
     NPC_WORLD_TRIGGER_INFINITE_AOI              = 36171,
     NPC_SPIRIT_BOMB                             = 39189,
-    NPC_FROSTMOURNE_TRIGGER                     = 38584,
+    NPC_FROSTMOURNE_TRIGGER                     = 38584,	
 
-   // Gunship: Ids of NPCs
+	// Gunship: Ids of NPCs
     NPC_GB_SKYBREAKER                           = 37540,
     NPC_GB_ORGRIMS_HAMMER                       = 37215,
     NPC_GB_HIGH_OVERLORD_SAURFANG               = 36939,
