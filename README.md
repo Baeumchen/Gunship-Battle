@@ -1,8 +1,5 @@
-Gunship-Battle
+Gunship-Battle - FIXED!
 ==============
-
-TODO: 
-  - Rocket Pack fix
 
 Finished:
   - Fixed Server Crash
