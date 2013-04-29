@@ -24,9 +24,11 @@
 #include "Vehicle.h"
 #include "Group.h"
 #include "ObjectMgr.h"
+#include "Object.h"
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "SpellAuras.h"
+#include "SpellScript.h"
 
 enum eAchievements
 {
@@ -1201,9 +1203,9 @@ class npc_gunship_skybreaker : public CreatureScript
     public:
         npc_gunship_skybreaker() : CreatureScript("npc_gunship_skybreaker") { }
 
-        struct npc_gunship_skybreakerAI : public Scripted_NoMovementAI
+        struct npc_gunship_skybreakerAI : public ScriptedAI
         {
-            npc_gunship_skybreakerAI(Creature *creature) : Scripted_NoMovementAI(creature), _instance(creature->GetInstanceScript())
+            npc_gunship_skybreakerAI(Creature *creature) : ScriptedAI(creature), _instance(creature->GetInstanceScript())
             {
                 Reset();
             }
@@ -1258,9 +1260,9 @@ class npc_gunship_orgrimmar : public CreatureScript
     public:
         npc_gunship_orgrimmar() : CreatureScript("npc_gunship_orgrimmar") { }
 
-        struct npc_gunship_orgrimmarAI : public Scripted_NoMovementAI
+        struct npc_gunship_orgrimmarAI : public ScriptedAI
         {
-            npc_gunship_orgrimmarAI(Creature *creature) : Scripted_NoMovementAI(creature), _instance(creature->GetInstanceScript())
+            npc_gunship_orgrimmarAI(Creature *creature) : ScriptedAI(creature), _instance(creature->GetInstanceScript())
             {
                 Reset();
             }
@@ -1316,9 +1318,9 @@ class npc_korkron_axethrower_rifleman : public CreatureScript
     public:
         npc_korkron_axethrower_rifleman() : CreatureScript("npc_korkron_axethrower_rifleman") { }
 
-        struct npc_korkron_axethrower_riflemanAI : public Scripted_NoMovementAI
+        struct npc_korkron_axethrower_riflemanAI : public ScriptedAI
         {
-            npc_korkron_axethrower_riflemanAI(Creature *creature) : Scripted_NoMovementAI(creature),_instance(creature->GetInstanceScript())
+            npc_korkron_axethrower_riflemanAI(Creature *creature) : ScriptedAI(creature),_instance(creature->GetInstanceScript())
             {
                 Reset();
             }
@@ -1679,9 +1681,9 @@ class npc_gunship_mage : public CreatureScript
     public:
         npc_gunship_mage() : CreatureScript("npc_gunship_mage") { }
 
-        struct npc_gunship_mageAI : public Scripted_NoMovementAI
+        struct npc_gunship_mageAI : public ScriptedAI
         {
-            npc_gunship_mageAI(Creature *creature) : Scripted_NoMovementAI(creature),_instance(creature->GetInstanceScript())
+            npc_gunship_mageAI(Creature *creature) : ScriptedAI(creature),_instance(creature->GetInstanceScript())
             {
                 Reset();
             }
@@ -1864,9 +1866,9 @@ class npc_mortar_soldier_or_rocketeer : public CreatureScript
     public:
         npc_mortar_soldier_or_rocketeer() : CreatureScript("npc_mortar_soldier_or_rocketeer") { }
 
-        struct npc_mortar_soldier_or_rocketeerAI : public Scripted_NoMovementAI
+        struct npc_mortar_soldier_or_rocketeerAI : public ScriptedAI
         {
-            npc_mortar_soldier_or_rocketeerAI(Creature *creature) : Scripted_NoMovementAI(creature),_instance(creature->GetInstanceScript())
+            npc_mortar_soldier_or_rocketeerAI(Creature *creature) : ScriptedAI(creature),_instance(creature->GetInstanceScript())
             {
                 Reset();
             }
@@ -2422,9 +2424,9 @@ class npc_gunship_portal : public CreatureScript
     public:
         npc_gunship_portal() : CreatureScript("npc_gunship_portal") { }
 
-        struct npc_gunship_portalAI : public Scripted_NoMovementAI
+        struct npc_gunship_portalAI : public ScriptedAI
         {
-            npc_gunship_portalAI(Creature *creature) : Scripted_NoMovementAI(creature),_instance(creature->GetInstanceScript())
+            npc_gunship_portalAI(Creature *creature) : ScriptedAI(creature),_instance(creature->GetInstanceScript())
             {
                 Reset();
             }
@@ -2474,9 +2476,9 @@ class npc_gunship_trigger : public CreatureScript
     public:
         npc_gunship_trigger() : CreatureScript("npc_gunship_trigger") { }
 
-        struct npc_gunship_triggerAI : public Scripted_NoMovementAI
+        struct npc_gunship_triggerAI : public ScriptedAI
         {
-            npc_gunship_triggerAI(Creature *creature) : Scripted_NoMovementAI(creature),_instance(creature->GetInstanceScript())
+            npc_gunship_triggerAI(Creature *creature) : ScriptedAI(creature),_instance(creature->GetInstanceScript())
             {
 
                 Reset();
@@ -3138,28 +3140,28 @@ class spell_icc_remove_rocket_pack : public SpellScriptLoader
 {
     public:
         spell_icc_remove_rocket_pack() : SpellScriptLoader("spell_icc_remove_rocket_pack") { }
-
+ 
         class spell_icc_remove_rocket_pack_SpellScript : public SpellScript
         {
             PrepareSpellScript(spell_icc_remove_rocket_pack_SpellScript);
-
+ 
             void HandleEffect(SpellEffIndex /*effIndex*/)
             {
                 Player* hitPlr = GetHitPlayer();
                 if (!hitPlr) // If player is offline
                     return;
-
+ 
                 int32 itemId = GetEffectValue();
                 uint32 itemCount = hitPlr->GetItemCount(itemId, false); // Should be 1, but just in case.
-                hitPlr->DestroyItemCount(itemId, itemCount, true, false);
+                hitPlr->DestroyItemCount(itemId, -itemCount, true, false);
             }
-
+ 
             void Register()
             {
-                OnEffectHitTarget += SpellEffectFn(spell_icc_remove_rocket_pack_SpellScript::HandleEffect, EFFECT_0, SPELL_EFFECT_SCRIPT_EFFECT);
+                OnEffectHit += SpellEffectFn(spell_icc_remove_rocket_pack_SpellScript::HandleEffect, EFFECT_0, SPELL_EFFECT_SCRIPT_EFFECT);
             }
         };
-
+ 
         SpellScript* GetSpellScript() const
         {
             return new spell_icc_remove_rocket_pack_SpellScript();
@@ -3310,38 +3312,69 @@ class spell_gb_burning_pitch : public SpellScriptLoader
         }
 };
 
-/* spell 68645 Rocket Pack */
-class spell_rocket_pack : public SpellScriptLoader
+/* Rocket Pack - 69188 */
+/* 68721 is a big red ball */
+/* 69193 is the damage when landing, it does not include the visual (which is 69192) */
+class spell_icc_rocket_pack : public SpellScriptLoader
 {
     public:
-        spell_rocket_pack() : SpellScriptLoader("spell_rocket_pack") { }
-
-        class spell_rocket_pack_AuraScript : public AuraScript
+        spell_icc_rocket_pack() : SpellScriptLoader("spell_icc_rocket_pack") { }
+ 
+        class spell_icc_rocket_pack_SpellScript : public SpellScript
         {
-            PrepareAuraScript(spell_rocket_pack_AuraScript);
-
-            void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+            PrepareSpellScript(spell_icc_rocket_pack_SpellScript);
+ 
+            SpellCastResult CheckRequirement()
             {
-                GetTarget()->CastSpell(GetTarget(), 68645, true);
+                Unit* caster = GetOriginalCaster();
+                if (caster->GetTypeId() != TYPEID_PLAYER)
+                    return SPELL_FAILED_TARGET_NOT_PLAYER;
+ 
+                // The aura checks if the player has the aura that Zafod Boombox uses. (SPELL_EFFECT_APPLY_AREA_AURA_FRIEND)
+                if (!caster->ToPlayer()->HasAura(70348)) // Rocket Pack Useable
+                {
+                    // May have a custom error message.
+                    Spell::SendCastResult(caster->ToPlayer(), GetSpellInfo(), 0, SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW);
+                    return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
+                }
+ 
+                return SPELL_CAST_OK;
             }
-
-            void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
-            {
-                GetTarget()->RemoveAurasDueToSpell(68645);
-            }
-
+ 
             void Register()
             {
-                OnEffectApply += AuraEffectApplyFn(spell_rocket_pack_AuraScript::OnApply, EFFECT_1, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
-                OnEffectRemove += AuraEffectRemoveFn(spell_rocket_pack_AuraScript::OnRemove, EFFECT_1, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+                OnCheckCast += SpellCheckCastFn(spell_icc_rocket_pack_SpellScript::CheckRequirement);
             }
         };
-
+ 
+        class spell_icc_rocket_pack_AuraScript : public AuraScript
+        {
+            PrepareAuraScript(spell_icc_rocket_pack_AuraScript);
+ 
+            void AfterRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+            {
+                Unit* caster = GetCaster();
+                caster->CastSpell(caster, 69193, true);
+                // 69193 does trigger the visual AoE effect (69192) through DB
+                caster->RemoveAurasDueToSpell(69188); // spell_linked_spell
+                caster->RemoveAurasDueToSpell(68721); // spell_linked_spell
+            }
+ 
+            void Register()
+            {
+                AfterEffectRemove += AuraEffectRemoveFn(spell_icc_rocket_pack_AuraScript::AfterRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+            }
+        };
+ 
+        SpellScript* GetSpellScript() const
+        {
+            return new spell_icc_rocket_pack_SpellScript();
+        }
+ 
         AuraScript* GetAuraScript() const
         {
-            return new spell_rocket_pack_AuraScript();
+            return new spell_icc_rocket_pack_AuraScript();
         }
-
 };
 
 void AddSC_boss_gunship_battle()
@@ -3371,5 +3404,5 @@ void AddSC_boss_gunship_battle()
     new spell_gb_overheat_drain();
     new spell_gb_incinerating_blast();
     new spell_gb_burning_pitch();
-    new spell_rocket_pack();
+    new spell_icc_rocket_pack();
 }
