@@ -1128,8 +1128,10 @@ class npc_muradin_gunship : public CreatureScript
                             _instance->SetBossState(DATA_GUNSHIP_EVENT, NOT_STARTED);
                             break;
                         case EVENT_RESTART_EVENT:
-                            _instance->SetBossState(DATA_GUNSHIP_EVENT, FAIL);
-                            RestartEvent(skybreaker, CheckUnfriendlyShip(me,_instance,DATA_GB_HIGH_OVERLORD_SAURFANG), map, ALLIANCE);
+							if(_instance->GetBossState(DATA_GUNSHIP_EVENT) != DONE){
+								_instance->SetBossState(DATA_GUNSHIP_EVENT, FAIL);
+								RestartEvent(skybreaker, CheckUnfriendlyShip(me,_instance,DATA_GB_HIGH_OVERLORD_SAURFANG), map, ALLIANCE);
+							}
                             break;
                         case EVENT_SPAWN_MAGE:
 							if(me->GetEntry() != NPC_GB_SKYBREAKER_SORCERERS){
@@ -2335,8 +2337,10 @@ class npc_saurfang_gunship : public CreatureScript
                             _instance->SetBossState(DATA_GUNSHIP_EVENT, NOT_STARTED);
                             break;
                         case EVENT_RESTART_EVENT:
-                            _instance->SetBossState(DATA_GUNSHIP_EVENT, FAIL);
-                            RestartEvent(orgrimmar, CheckUnfriendlyShip(me,_instance,DATA_GB_MURADIN_BRONZEBEARD), map, HORDE);
+							if(_instance->GetBossState(DATA_GUNSHIP_EVENT) != DONE){
+								_instance->SetBossState(DATA_GUNSHIP_EVENT, FAIL);
+								RestartEvent(orgrimmar, CheckUnfriendlyShip(me,_instance,DATA_GB_MURADIN_BRONZEBEARD), map, HORDE);
+							}
                             break;
                         case EVENT_RENDING_THROW:
                             if (UpdateVictim())
