@@ -1829,24 +1829,24 @@ class npc_gunship_cannon : public CreatureScript
 
             void UpdateAI(uint32 diff)
             {
+            	me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG_STRAFE_LEFT);
+		me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG_STRAFE_RIGHT);
+		me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG2_INTERPOLATED_TURNING);
+		
                 if(me->HasAura(SPELL_BELOW_ZERO))
                 {
-                    me->RemoveAurasByType(SPELL_AURA_CONTROL_VEHICLE);
-                    me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
+			me->RemoveAurasByType(SPELL_AURA_CONTROL_VEHICLE);
+			me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE)
 					
                     if (Vehicle* veh = me->GetVehicleKit())
                         veh->RemoveAllPassengers();
                 }
                 else
                 {
-                    me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
-					me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG_STRAFE_LEFT);
-					me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG_STRAFE_RIGHT);
-					me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG2_INTERPOLATED_TURNING);
-					me->AddExtraUnitMovementFlag(MOVEMENTFLAG2_NO_STRAFE);
-					me->AddExtraUnitMovementFlag(MOVEMENTFLAG_LEFT);
-					me->AddExtraUnitMovementFlag(MOVEMENTFLAG_RIGHT);
-
+			me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
+			me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG_STRAFE_LEFT);
+			me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG_STRAFE_RIGHT);
+			me->RemoveExtraUnitMovementFlag(MOVEMENTFLAG2_INTERPOLATED_TURNING);
 					
                 }
             }
@@ -3328,12 +3328,12 @@ class spell_rocket_pack : public SpellScriptLoader
 
             void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
-                GetTarget()->CastSpell(GetTarget(), 68645, true);
+                GetTarget()->CastSpell(GetTarget(), 68721, true);
             }
 
             void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
-                GetTarget()->RemoveAurasDueToSpell(68645);
+                GetTarget()->RemoveAurasDueToSpell(68721);
             }
 
             void Register()
