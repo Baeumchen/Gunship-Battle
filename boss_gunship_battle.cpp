@@ -1836,7 +1836,7 @@ class npc_gunship_cannon : public CreatureScript
                 if(me->HasAura(SPELL_BELOW_ZERO))
                 {
 			me->RemoveAurasByType(SPELL_AURA_CONTROL_VEHICLE);
-			me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE)
+			me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
 					
                     if (Vehicle* veh = me->GetVehicleKit())
                         veh->RemoveAllPassengers();
