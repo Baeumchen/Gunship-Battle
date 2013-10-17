@@ -1,6 +1,12 @@
 Gunship-Battle - Will be rewritten!
 ==============
 
+I am still gettin help requests for this.. 
+Please, i beg you: DO NOT USE THIS SHITTY, CRAPPY, HACKY SCRIPT! 
+IT IS 100% OUT DATED AND SHOULD NOT BE USED! THE ONLY REASON THIS IS STILL ONLY
+IS BECAUSE IM TO LAZY DO DELETE ALL FILES! 
+
+
 Finished:
   - Fixed Server Crash
   - Fixed Cannon Aim Angle
